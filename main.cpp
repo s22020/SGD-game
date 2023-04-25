@@ -12,14 +12,17 @@ bool handle_events(SDL_Rect &rect) {
             case SDL_QUIT:
                 std::cout << "Quit" << std::endl;
                 return false;
-            case SDL_KEYDOWN:
-                if (e.key.keysym.sym == SDLK_q) {
-                    std::cout << "lag..." << std::endl;
-                    SDL_Delay(500);
-                }
+//            case SDLK_q:
+//                if (e.key.keysym.sym == SDLK_q) {
+//                    std::cout << "lag..." << std::endl;
+//                    SDL_Delay(500);
+//                }
         }
     }
-    if (key_state[SDL_SCANCODE_UP]) rect.y--;
+    if (key_state[SDL_SCANCODE_UP]) {
+        rect.y--;
+        std::cout << "Wcisnieto klawisz do gory" << std::endl;
+    }
     if (key_state[SDL_SCANCODE_DOWN]) rect.y++;
     if (key_state[SDL_SCANCODE_LEFT]) rect.x--;
     if (key_state[SDL_SCANCODE_RIGHT]) rect.x++;
@@ -73,6 +76,7 @@ int main() {
         auto prev_ticks = SDL_GetTicks();
         int frame_dropped = 0;
         while (handle_events(rect)) {
+            std::cout << "Test" << std::endl;
             if (!frame_dropped) {
 //                SDL_SetRenderDrawColor(renderer_p.get(), 0, 0, 0, 255);
 //                SDL_RenderClear(renderer_p.get());
@@ -91,6 +95,7 @@ int main() {
             }
             auto ticks = SDL_GetTicks();
             if ((ticks - prev_ticks) < 33) {
+                std::cout << (ticks - prev_ticks) << std::endl;
                 SDL_Delay(33 - (ticks - prev_ticks));
                 frame_dropped = 0;
             } else {
