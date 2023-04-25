@@ -53,7 +53,7 @@ std::shared_ptr<SDL_Texture> load_texture(std::shared_ptr<SDL_Renderer> renderer
         throw std::invalid_argument(SDL_GetError());
     }
     SDL_SetColorKey(surface, SDL_TRUE, SDL_MapRGB(surface->format, 0x0ff, 0x0, 0x0ff));
-
+    SDL_SetColorKey(surface, SDL_TRUE, 0x0ff00ff);
     auto texture = SDL_CreateTextureFromSurface(renderer.get(), surface);
     if (!texture) {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Couldn't create texture from surface: %s", SDL_GetError());
@@ -63,20 +63,32 @@ std::shared_ptr<SDL_Texture> load_texture(std::shared_ptr<SDL_Renderer> renderer
     return std::shared_ptr<SDL_Texture>(texture, [](auto *p) { SDL_DestroyTexture(p); });
 }
 
+std::pair<int, int> get_texture_w_h(std::shared_ptr<SDL_Texture> texture) {
+    int w, h;
+    SDL_QueryTexture(texture.get(), nullptr, nullptr, &w, &h);
+    return {w, h};
+}
+
+SDL_Rect get_texture_rect(std::shared_ptr<SDL_Texture> texture) {
+    auto [w, h] = get_texture_w_h(texture);
+    return {0, 0, w, h};
+}
+
 int main() {
     SDL_Init(SDL_INIT_EVERYTHING);
     {
         auto [window_p, renderer_p] = create_context();
 
+        auto player_texture = load_texture(renderer_p, "player.bmp");
+        SDL_Rect player_rect = get_texture_rect(player_texture);
+
         auto clouds = load_texture(renderer_p, "clouds.bmp");
         auto background = load_texture(renderer_p, "background.bmp");
 
 
-        SDL_Rect rect = {10, 10, 300, 100};
-        auto prev_ticks = SDL_GetTicks();
+        int prev_ticks = SDL_GetTicks();
         int frame_dropped = 0;
-        while (handle_events(rect)) {
-            std::cout << "Test" << std::endl;
+        while (handle_events(player_rect)) {
             if (!frame_dropped) {
 //                SDL_SetRenderDrawColor(renderer_p.get(), 0, 0, 0, 255);
 //                SDL_RenderClear(renderer_p.get());
@@ -85,17 +97,22 @@ int main() {
                     int w;
                     int h;
                     SDL_QueryTexture(clouds.get(), NULL, NULL, &w, &h);
-                    SDL_Rect clouds_rect = {rect.x / 2 - 200, rect.y / 2 - 200, w, h};
+                    SDL_Rect clouds_rect = {player_rect.x / 2 - 200, player_rect.y / 2 - 200, w, h};
                     SDL_RenderCopy(renderer_p.get(), clouds.get(), nullptr, &clouds_rect);
 
                 }
-                SDL_SetRenderDrawColor(renderer_p.get(), 255, 100, 50, 255);
-                SDL_RenderFillRect(renderer_p.get(), &rect);
+//                SDL_SetRenderDrawColor(renderer_p.get(), 255, 100, 50, 255);
+//                SDL_RenderFillRect(renderer_p.get(), &rect);
+                SDL_RenderCopy(renderer_p.get(), player_texture.get(), nullptr, &player_rect);
                 SDL_RenderPresent(renderer_p.get());
             }
-            auto ticks = SDL_GetTicks();
+            int ticks = SDL_GetTicks();
+            std::cout << (ticks - prev_ticks) << " " << ticks << " " << prev_ticks << std::endl;
+//            if (prev_ticks > ticks) {
+//                break;
+//            }
             if ((ticks - prev_ticks) < 33) {
-                std::cout << (ticks - prev_ticks) << std::endl;
+//                std::cout << (ticks - prev_ticks) << std::endl;
                 SDL_Delay(33 - (ticks - prev_ticks));
                 frame_dropped = 0;
             } else {
