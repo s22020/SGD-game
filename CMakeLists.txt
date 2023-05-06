@@ -20,7 +20,7 @@ project (SGD-game)
 
 find_package(SDL2 REQUIRED)
 # Create a sources variable with a link to all cpp files to compile
-set(SOURCES main.cpp)
+set(SOURCES main.cpp core/game.h core/game.cpp render/render.h render/render.cpp objects/player.h objects/player.cpp)
 
 # Add an executable with the above sources
 add_executable(${PROJECT_NAME} ${SOURCES})
