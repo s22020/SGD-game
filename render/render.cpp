@@ -13,6 +13,7 @@ Render::Render() {}
 std::pair<std::shared_ptr<SDL_Window>, std::shared_ptr<SDL_Renderer>> Render::initializeWindow() {
     SDL_Window *window;
     SDL_Renderer *renderer;
+    // create window and renderer for displaying textures etc
     SDL_CreateWindowAndRenderer(
             640, 480,
             SDL_WINDOW_SHOWN,
@@ -44,13 +45,3 @@ std::shared_ptr<SDL_Texture> Render::loadTexture(std::shared_ptr<SDL_Renderer> r
     return std::shared_ptr<SDL_Texture>(texture, [](auto *p) { SDL_DestroyTexture(p); });
 }
 
-std::pair<int, int> Render::getTextureWH(std::shared_ptr<SDL_Texture> texture) {
-    int w, h;
-    SDL_QueryTexture(texture.get(), nullptr, nullptr, &w, &h);
-    return {w, h};
-}
-
-SDL_Rect Render::getTextureRect(std::shared_ptr<SDL_Texture> texture) {
-    auto [w, h] = getTextureWH(texture);
-    return {0, 0, w, h};
-}

@@ -10,16 +10,23 @@ class Render {
 private:
     int windowWidth;
     int windowHeight;
-//    SDL_Window *window;
-//    SDL_Renderer *renderer;
-    std::pair<int, int> getTextureWH(std::shared_ptr<SDL_Texture> texture);
 
 public:
     Render(int windowWidth, int windowHeight);
     Render();
     std::pair<std::shared_ptr<SDL_Window>, std::shared_ptr<SDL_Renderer>> initializeWindow();
+    // move to private
     std::shared_ptr<SDL_Texture> loadTexture(std::shared_ptr<SDL_Renderer> renderer, std::string textureName);
-    SDL_Rect getTextureRect(std::shared_ptr<SDL_Texture> texture);
+    // move to private
+
+    // add main render method
+//    void render();
+    // add playerRender method
+//    void render(std::shared_ptr<SDL_Renderer> renderer_p);
+    // add backgroundRender method
+//    void backgroundRender();
+    // add floorRender method
+//    void floorRender();
 
 };
 

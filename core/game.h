@@ -4,14 +4,13 @@
 
 #include <SDL.h>
 #include "../render/render.h"
+#include "../objects/player.h"
 
 class Game {
 private:
-    int windowWidth;
-    int windowHeight;
-    SDL_Window *window;
     bool gaming;
     Render render;
+    Player player;
     int frameDropped = 0;
     Uint32 previousTick = 0;
     Uint32 currentTick = SDL_GetTicks();

@@ -13,7 +13,6 @@ void Game::updateWithDelta() {
         frameDropped = 1;
     }
     previousTick += 33;
-//    deltaTime = currentTick - previousTick;
 
 }
 
@@ -39,8 +38,9 @@ void Game::startGame() {
     gaming = true;
     auto [window_p, renderer_p] = render.initializeWindow();
 
+    // create player texture
     auto player_texture = render.loadTexture(renderer_p, "player.bmp");
-    SDL_Rect player_rect = render.getTextureRect(player_texture);
+    SDL_Rect player_rect = player.getTextureRect(player_texture);
 
     auto clouds = render.loadTexture(renderer_p, "clouds.bmp");
     auto background = render.loadTexture(renderer_p, "background.bmp");
@@ -56,8 +56,9 @@ void Game::startGame() {
             SDL_QueryTexture(clouds.get(), NULL, NULL, &w, &h);
             SDL_Rect clouds_rect = {player_rect.x / 2 - 200, player_rect.y / 2 - 200, w, h};
             SDL_RenderCopy(renderer_p.get(), clouds.get(), nullptr, &clouds_rect);
-
+            // copy a player texture to the renderer
             SDL_RenderCopy(renderer_p.get(), player_texture.get(), nullptr, &player_rect);
+//            render.playerRender(renderer_p);
             SDL_RenderPresent(renderer_p.get());
             updateWithDelta();
             handleEvents(player_rect);
