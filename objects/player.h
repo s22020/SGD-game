@@ -7,10 +7,29 @@
 
 class Player {
 public:
+    Player() {};
+    Player(SDL_Rect playerRect);
+    Player(int x, int y, int w, int h);
     SDL_Rect &getPlayerRect();
+    int getPlayerPosX();
+    int getPlayerPosY();
+    bool getFlipHorizontally();
+    void setFlipHorizontally(bool flipHorizontally);
+
 
 private:
-    SDL_Rect playerRect = {0, 325, 100, 100};
+    int x;
+    int y;
+    int w;
+    int h;
+    SDL_Rect playerRect;
+    bool flipHorizontally = false;
+//    SDL_Rect playerRect = {0, 325, 100, 100};
+
+    void setPlayerPosX(int x);
+
+    void setPlayerPosY(int y);
+
 
 };
 

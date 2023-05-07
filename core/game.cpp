@@ -17,22 +17,33 @@ void Game::updateWithDelta() {
 
 }
 
+//void Game::handleEvents(SDL_Rect &rect, std::shared_ptr<SDL_Texture> player_texture ,std::shared_ptr<SDL_Renderer> renderer_p) {
 void Game::handleEvents(SDL_Rect &rect) {
-    SDL_Event e;
-    auto *key_state = SDL_GetKeyboardState(nullptr);
-    while (SDL_PollEvent(&e) != 0) {
-        switch (e.type) {
-            case SDL_QUIT:
-                std::cout << "Quit" << std::endl;
-                gaming = false;
-                break;
+        SDL_Event e;
+        auto *key_state = SDL_GetKeyboardState(nullptr);
+        while (SDL_PollEvent(&e) != 0) {
+            switch (e.type) {
+                case SDL_QUIT:
+                    std::cout << "Quit" << std::endl;
+                    gaming = false;
+                    break;
+            }
         }
-    }
-//    if (key_state[SDL_SCANCODE_UP]) player.getPlayerRect().y--;
-    if (key_state[SDL_SCANCODE_UP]) rect.y--;
-    if (key_state[SDL_SCANCODE_DOWN]) rect.y++;
-    if (key_state[SDL_SCANCODE_LEFT]) rect.x--;
-    if (key_state[SDL_SCANCODE_RIGHT]) rect.x++;
+
+//        player_texture = render.loadTexture(renderer_p, "player-right.bmp");
+        //    if (key_state[SDL_SCANCODE_UP]) player.getPlayerRect().y--;
+        if (key_state[SDL_SCANCODE_UP]) rect.y--;
+        if (key_state[SDL_SCANCODE_DOWN]) rect.y++;
+        if (key_state[SDL_SCANCODE_LEFT]) {
+//            player_texture = render.loadTexture(renderer_p, "player-left.bmp");
+            player.setFlipHorizontally(true);
+            rect.x--;
+        }
+        if (key_state[SDL_SCANCODE_RIGHT]) {
+            //        player_texture = render.loadTexture(renderer_p, "player.bmp");
+            player.setFlipHorizontally(false);
+            rect.x++;
+        }
 }
 
 void Game::startGame() {
@@ -69,12 +80,17 @@ void Game::startGame() {
 //            render.getTextureRect(clouds);
             SDL_Rect clouds_rect = {player_rect.x / 2 - 200, player_rect.y / 2 - 200, w, h};
             SDL_RenderCopy(renderer_p.get(), clouds.get(), nullptr, &clouds_rect);
+            handleEvents(player_rect);
+            SDL_RendererFlip flip = SDL_RendererFlip::SDL_FLIP_NONE;
             // copy a player texture to the renderer
-            SDL_RenderCopy(renderer_p.get(), player_texture.get(), nullptr, &player_rect);
+            if (player.getFlipHorizontally()) flip = SDL_RendererFlip::SDL_FLIP_HORIZONTAL;
+            SDL_RenderCopyEx(renderer_p.get(), player_texture.get(), nullptr, &player_rect, 0, nullptr, flip);
 //            render.playerRender(renderer_p);
             SDL_RenderPresent(renderer_p.get());
             updateWithDelta();
-            handleEvents(player_rect);
+//            handleEvents(player_rect, player_texture, renderer_p);
+
+
 
         }
     }
@@ -83,6 +99,7 @@ void Game::startGame() {
 
 Game::Game(int windowWidth, int windowHeight) {
     this->render = Render(windowWidth, windowHeight);
+    this->player = Player(0, 325, 100, 100);
 
     startGame();
 }

@@ -3,6 +3,7 @@
 #define SDL_MAIN_HANDLED
 
 #include <SDL.h>
+#include <memory>
 #include "../render/render.h"
 #include "../objects/player.h"
 
@@ -17,6 +18,7 @@ private:
     double deltaTime = 0;
 
     void startGame();
+//    void handleEvents(SDL_Rect &sdlRect, std::shared_ptr<SDL_Texture> player_texture, std::shared_ptr<SDL_Renderer> renderer_p);
     void handleEvents(SDL_Rect &sdlRect);
     void updateWithDelta();
 
