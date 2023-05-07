@@ -10,7 +10,7 @@ public:
     SDL_Rect &getPlayerRect();
 
 private:
-    SDL_Rect playerRect = {0, 0, 100, 100};
+    SDL_Rect playerRect = {0, 325, 100, 100};
 
 };
 

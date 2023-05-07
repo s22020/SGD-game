@@ -2,6 +2,7 @@
 #include "../render/render.h"
 
 #include <iostream>
+#include <vector>
 
 void Game::updateWithDelta() {
     previousTick = currentTick;
@@ -27,10 +28,11 @@ void Game::handleEvents(SDL_Rect &rect) {
                 break;
         }
     }
-    if (key_state[SDL_SCANCODE_UP]) player.getPlayerRect().y--;
-    if (key_state[SDL_SCANCODE_DOWN]) player.getPlayerRect().y++;
-    if (key_state[SDL_SCANCODE_LEFT]) player.getPlayerRect().x--;
-    if (key_state[SDL_SCANCODE_RIGHT]) player.getPlayerRect().x++;
+//    if (key_state[SDL_SCANCODE_UP]) player.getPlayerRect().y--;
+    if (key_state[SDL_SCANCODE_UP]) rect.y--;
+    if (key_state[SDL_SCANCODE_DOWN]) rect.y++;
+    if (key_state[SDL_SCANCODE_LEFT]) rect.x--;
+    if (key_state[SDL_SCANCODE_RIGHT]) rect.x++;
 }
 
 void Game::startGame() {
@@ -45,16 +47,26 @@ void Game::startGame() {
 
     auto clouds = render.loadTexture(renderer_p, "clouds.bmp");
     auto background = render.loadTexture(renderer_p, "background.bmp");
-
+    auto floor = render.loadTexture(renderer_p, "floor_placeholder.bmp");
 
     int frame_dropped = 0;
     while (gaming) {
         if (!frame_dropped) {
 //                SDL_RenderClear(renderer_p.get());
+            // copy texture to the renderer, dstrect is stretching to entire screen
             SDL_RenderCopy(renderer_p.get(), background.get(), nullptr, nullptr);
+            std::vector<SDL_Rect> floor_array = std::vector<SDL_Rect>();
+//            SDL_Rect floor_rect = {0, 416+i*32, 64, 64};
+            for (int i=0; i<16; i++) {
+                SDL_Rect floor_rect = {0+i*64, 416, 64, 64};
+                floor_array.push_back(floor_rect);
+                SDL_RenderCopy(renderer_p.get(), floor.get(), nullptr, &floor_rect);
+            }
             int w;
             int h;
+            // ask the size of texture and copy to w and h
             SDL_QueryTexture(clouds.get(), NULL, NULL, &w, &h);
+//            render.getTextureRect(clouds);
             SDL_Rect clouds_rect = {player_rect.x / 2 - 200, player_rect.y / 2 - 200, w, h};
             SDL_RenderCopy(renderer_p.get(), clouds.get(), nullptr, &clouds_rect);
             // copy a player texture to the renderer
