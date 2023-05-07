@@ -27,10 +27,10 @@ void Game::handleEvents(SDL_Rect &rect) {
                 break;
         }
     }
-    if (key_state[SDL_SCANCODE_UP]) rect.y--;
-    if (key_state[SDL_SCANCODE_DOWN]) rect.y++;
-    if (key_state[SDL_SCANCODE_LEFT]) rect.x--;
-    if (key_state[SDL_SCANCODE_RIGHT]) rect.x++;
+    if (key_state[SDL_SCANCODE_UP]) player.getPlayerRect().y--;
+    if (key_state[SDL_SCANCODE_DOWN]) player.getPlayerRect().y++;
+    if (key_state[SDL_SCANCODE_LEFT]) player.getPlayerRect().x--;
+    if (key_state[SDL_SCANCODE_RIGHT]) player.getPlayerRect().x++;
 }
 
 void Game::startGame() {
@@ -40,7 +40,8 @@ void Game::startGame() {
 
     // create player texture
     auto player_texture = render.loadTexture(renderer_p, "player.bmp");
-    SDL_Rect player_rect = player.getTextureRect(player_texture);
+//    SDL_Rect player_rect = player.getTextureRect(player_texture);
+    SDL_Rect player_rect = player.getPlayerRect();
 
     auto clouds = render.loadTexture(renderer_p, "clouds.bmp");
     auto background = render.loadTexture(renderer_p, "background.bmp");

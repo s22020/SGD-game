@@ -45,3 +45,14 @@ std::shared_ptr<SDL_Texture> Render::loadTexture(std::shared_ptr<SDL_Renderer> r
     return std::shared_ptr<SDL_Texture>(texture, [](auto *p) { SDL_DestroyTexture(p); });
 }
 
+std::pair<int, int> Render::getTextureWidthHeight(std::shared_ptr<SDL_Texture> texture) {
+    int w, h;
+    // get info about texture size
+    SDL_QueryTexture(texture.get(), nullptr, nullptr, &w, &h);
+    return {w, h};
+}
+// return the size of texture
+SDL_Rect Render::getTextureRect(std::shared_ptr<SDL_Texture> texture) {
+    auto [w, h] = getTextureWidthHeight(texture);
+    return {0, 0, w, h};
+}

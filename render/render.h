@@ -10,6 +10,7 @@ class Render {
 private:
     int windowWidth;
     int windowHeight;
+    std::pair<int, int> getTextureWidthHeight(std::shared_ptr<SDL_Texture> texture);
 
 public:
     Render(int windowWidth, int windowHeight);
@@ -18,6 +19,8 @@ public:
     // move to private
     std::shared_ptr<SDL_Texture> loadTexture(std::shared_ptr<SDL_Renderer> renderer, std::string textureName);
     // move to private
+
+    SDL_Rect getTextureRect(std::shared_ptr<SDL_Texture> texture);
 
     // add main render method
 //    void render();

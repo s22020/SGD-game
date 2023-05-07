@@ -7,10 +7,11 @@
 
 class Player {
 public:
-    SDL_Rect getTextureRect(std::shared_ptr<SDL_Texture> texture);
+    SDL_Rect &getPlayerRect();
 
 private:
-    std::pair<int, int> getTextureWH(std::shared_ptr<SDL_Texture> texture);
+    SDL_Rect playerRect = {0, 0, 100, 100};
+
 };
 
 #endif //SGD_GAME_PLAYER_H
