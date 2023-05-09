@@ -1,35 +1,18 @@
 #ifndef SGD_GAME_PLAYER_H
 #define SGD_GAME_PLAYER_H
 
-#include <SDL.h>
+#include "character.h"
 
-#include <memory>
-
-class Player {
+class Player : public Character {
 public:
-    Player() {};
-    Player(SDL_Rect playerRect);
-    Player(int x, int y, int w, int h);
-    SDL_Rect &getPlayerRect();
-    int getPlayerPosX();
-    int getPlayerPosY();
-    bool getFlipHorizontally();
-    void setFlipHorizontally(bool flipHorizontally);
-
+    Player(std::string textureId, float x, float y, int width, int height, SDL_RendererFlip flip=SDL_FLIP_NONE);
+    virtual void draw();
+    virtual void clean();
+    virtual void update(float dt);
 
 private:
-    int x;
-    int y;
-    int w;
-    int h;
-    SDL_Rect playerRect;
-    bool flipHorizontally = false;
-//    SDL_Rect playerRect = {0, 325, 100, 100};
-
-    void setPlayerPosX(int x);
-
-    void setPlayerPosY(int y);
-
+    // frameCount - how much frames will be drawn for animation
+    int row, frame, frameCount, animationSpeed;
 
 };
 

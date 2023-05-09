@@ -31,6 +31,12 @@ void Render::drawTexture(std::string id, int x, int y, int width, int height, SD
     SDL_RenderCopyEx(Game::getInstance()->getRenderer(), renderMap[id], &srcRect, &dstRect, 0, nullptr, flip);
 }
 
+void Render::drawFrame(std::string id, int x, int y, int width, int height, int row, int frame, SDL_RendererFlip flip) {
+    SDL_Rect srcRect = {width * frame, height * row, width, height};
+    SDL_Rect dstRect = {x, y, width, height};
+    SDL_RenderCopyEx(Game::getInstance()->getRenderer(), renderMap[id], &srcRect, &dstRect, 0, nullptr, flip);
+}
+
 void Render::dropTexture(std::string id) {
     SDL_DestroyTexture(renderMap[id]);
     renderMap.erase(id);

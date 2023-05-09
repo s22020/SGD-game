@@ -1,41 +1,28 @@
 #include "player.h"
+#include "../render/render.h"
 
-Player::Player(SDL_Rect playerRect) {
-    this->playerRect = playerRect;
+// updates frame according to animationSpeed
+Player::Player(std::string textureId, float x, float y, int width, int height, SDL_RendererFlip flip)
+                : Character(textureId, x, y, width, height, flip) {
+    // how much "frames" in spritesheet the player animation has
+    row = 0;
+    frameCount = 2;
+    animationSpeed = 150;
 }
 
-Player::Player(int x, int y, int w, int h) {
-    this->x = x;
-    this->y = y;
-    this->w = w;
-    this->h = h;
-    playerRect = {x, y, w, h};
+void Player::draw() {
+    Render::getInstance()->drawFrame(textureId, transform->posX, transform->posY, width, height, row, frame);
 }
 
-SDL_Rect &Player::getPlayerRect() {
-    return playerRect;
+void Player::clean() {
+    Render::getInstance()->clean();
 }
 
-int Player::getPlayerPosX() {
-    return x;
+void Player::update(float dt) {
+    // if modulo equals 0 then it is the last frame and we start from the first
+    frame = (SDL_GetTicks() / animationSpeed) % frameCount;
 }
 
-int Player::getPlayerPosY() {
-    return y;
-}
-
-bool Player::getFlipHorizontally() {
-    return flipHorizontally;
-}
-
-void Player::setPlayerPosX(int x) {
-    this->x = x;
-}
-
-void Player::setPlayerPosY(int y) {
-    this->y = y;
-}
-
-void Player::setFlipHorizontally(bool flipHorizontally) {
-    this->flipHorizontally = flipHorizontally;
-}
+//void Player::setFlipHorizontally(bool flipHorizontally) {
+//    this->flipHorizontally = flipHorizontally;
+//}
