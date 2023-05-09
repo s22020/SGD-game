@@ -1,29 +1,36 @@
+#define SDL_MAIN_HANDLED
 #ifndef SGD_GAME_GAME_H
 #define SGD_GAME_GAME_H
-#define SDL_MAIN_HANDLED
 
 #include <SDL.h>
+#include <SDL_image.h>
 #include <memory>
 #include "../render/render.h"
 #include "../objects/player.h"
 
 class Game {
-private:
-    bool gaming;
-    Render render;
-    Player player;
-    int frameDropped = 0;
-    Uint32 previousTick = 0;
-    Uint32 currentTick = SDL_GetTicks();
-    double deltaTime = 0;
+public:
+    static Game* getInstance() {
+        return game = (game != nullptr) ? game : new Game();
+    }
 
     void startGame();
-//    void handleEvents(SDL_Rect &sdlRect, std::shared_ptr<SDL_Texture> player_texture, std::shared_ptr<SDL_Renderer> renderer_p);
-    void handleEvents(SDL_Rect &sdlRect);
-    void updateWithDelta();
+    void handleEvents();
+    void update();
+    void render();
+    void clean();
+    void quit();
 
-public:
-    Game(int windowWidth, int windowHeight);
+    inline bool isRunning() { return running; }
+    inline SDL_Renderer* getRenderer() { return renderer; }
+
+private:
+    Game() {}
+    static Game* game;
+    bool running;
+    SDL_Window *window;
+    SDL_Renderer *renderer;
+    bool flipHorizontally = false;
 };
 
 #endif //SGD_GAME_GAME_H

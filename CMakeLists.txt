@@ -1,31 +1,15 @@
-#cmake_minimum_required(VERSION 3.5)
-#
-#project (SGD_game)
-#
-#set(SOURCES main.cpp)
-#
-#include_directories(SDL2Test ${SDL2_INCLUDE_DIRS})
-#
-## Add an executable with the above sources
-#
-#link_directories(/usr/local/lib/cmake/SDL2)
-#add_executable(${PROJECT_NAME} ${SOURCES})
-#
-#target_link_libraries(${PROJECT_NAME} SDL2 SDL2_mixer)
-
-cmake_minimum_required(VERSION 3.5)
-
-# Set the project name
+cmake_minimum_required(VERSION 3.25)
 project (SGD-game)
 
-find_package(SDL2 REQUIRED)
-# Create a sources variable with a link to all cpp files to compile
-set(SOURCES main.cpp core/game.h core/game.cpp render/render.h render/render.cpp objects/player.h objects/player.cpp)
+set(CMAKE_CXX_STANDARD 17)
 
-# Add an executable with the above sources
-add_executable(${PROJECT_NAME} ${SOURCES})
 
-target_link_libraries(SGD-game ${SDL2_LIBRARIES})
+set(SDL2_INCLUDE_DIR "C:/Users/Zuza/SDL2/SDL2-2.26.5/include")
+set(SDL2_LIB_DIR "C:/Users/Zuza/SDL2/SDL2-2.26.5/lib/x64")
 
-# Set the directories that should be included in the build command for this target
-include_directories(SDL2Test ${SDL2_INCLUDE_DIRS})
+include_directories(${SDL2_INCLUDE_DIR})
+
+add_executable(${PROJECT_NAME} main.cpp core/game.h core/game.cpp render/render.h render/render.cpp objects/player.h objects/player.cpp)
+
+target_link_libraries(${PROJECT_NAME} ${SDL2_LIB_DIR}/SDL2.lib ${SDL2_LIB_DIR}/SDL2main.lib ${SDL2_LIB_DIR}/SDL2_image.lib)
+
