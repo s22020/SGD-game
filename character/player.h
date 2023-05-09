@@ -2,6 +2,7 @@
 #define SGD_GAME_PLAYER_H
 
 #include "character.h"
+#include "../animation/animation.h"
 
 class Player : public Character {
 public:
@@ -11,8 +12,7 @@ public:
     virtual void update(float dt);
 
 private:
-    // frameCount - how much frames will be drawn for animation
-    int row, frame, frameCount, animationSpeed;
+    Animation* animation;
 
 };
 
