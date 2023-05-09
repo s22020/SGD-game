@@ -6,7 +6,7 @@
 #include <SDL_image.h>
 #include <memory>
 #include "../render/render.h"
-#include "../objects/player.h"
+#include "../character/player.h"
 
 class Game {
 public:
