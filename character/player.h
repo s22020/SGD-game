@@ -3,6 +3,7 @@
 
 #include "character.h"
 #include "../animation/animation.h"
+#include "../physics/rigidbody.h"
 
 class Player : public Character {
 public:
@@ -13,6 +14,7 @@ public:
 
 private:
     Animation* animation;
+    RigidBody* rigidBody;
 
 };
 

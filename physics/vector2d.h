@@ -19,7 +19,7 @@ public:
     }
 
     // overriding multiplication of vector by scalar
-    inline Vector2D operator+(const float scalar) {
+    inline Vector2D operator*(const float scalar) {
         return Vector2D(posX * scalar, posY * scalar);
     }
 
