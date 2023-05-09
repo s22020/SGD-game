@@ -3,6 +3,7 @@
 #include <iostream>
 
 Game* Game::game = nullptr;
+Player* player = nullptr;
 
 void Game::startGame() {
     if (SDL_Init(SDL_INIT_VIDEO) != 0 && IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG) != 0) {
@@ -22,10 +23,12 @@ void Game::startGame() {
     }
 
     // load every Texture
-    Render::getInstance()->loadTexture("player", "player.png");
+    Render::getInstance()->loadTexture("player", "player-idle.png");
     Render::getInstance()->loadTexture("clouds", "clouds.bmp");
     Render::getInstance()->loadTexture("background", "background.bmp");
     Render::getInstance()->loadTexture("floor", "floor_placeholder.bmp");
+
+    player = new Player("player", 0, 358, 64, 64);
 
     running = true;
 }
@@ -69,6 +72,7 @@ void Game::update() {
 //        frameDropped = 1;
 //    }
 //    previousTick += 33;
+    player->update(0);
 
 }
 
@@ -86,7 +90,8 @@ void Game::render() {
     SDL_RendererFlip flip = SDL_RendererFlip::SDL_FLIP_NONE;
     if (flipHorizontally) flip = SDL_RendererFlip::SDL_FLIP_HORIZONTAL;
     // copy texture to the renderer, dstrect is stretching to entire screen
-    Render::getInstance()->drawTexture("player", 0, 325, 100, 100, flip);
+//    Render::getInstance()->drawTexture("player", 0, 325, 100, 100, flip);
+    player->draw();
 
     SDL_RenderPresent(renderer);
 }

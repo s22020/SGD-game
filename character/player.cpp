@@ -7,7 +7,7 @@ Player::Player(std::string textureId, float x, float y, int width, int height, S
     // how much "frames" in spritesheet the player animation has
     row = 0;
     frameCount = 2;
-    animationSpeed = 150;
+    animationSpeed = 500;
 }
 
 void Player::draw() {
