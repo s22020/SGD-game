@@ -18,10 +18,13 @@ public:
     virtual void draw() = 0;
     virtual void clean() = 0;
     virtual void update(float dt) = 0;
+    Transform* transform;
+    virtual SDL_RendererFlip getFlip() = 0;
+    virtual void setFlip(SDL_RendererFlip flip) = 0;
+
 
 protected:
     std::string name;
-    Transform* transform;
     int width, height;
     std::string textureId;
     SDL_RendererFlip flip;

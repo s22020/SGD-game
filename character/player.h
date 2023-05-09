@@ -11,6 +11,8 @@ public:
     virtual void draw();
     virtual void clean();
     virtual void update(float dt);
+    SDL_RendererFlip getFlip();
+    void setFlip(SDL_RendererFlip flip);
 
 private:
     Animation* animation;

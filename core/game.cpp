@@ -3,7 +3,10 @@
 #include <iostream>
 
 Game* Game::game = nullptr;
-Player* player = nullptr;
+//Player* player = nullptr;
+
+Player* player = new Player("player", 0, 358, 64, 64);
+
 
 void Game::startGame() {
     if (SDL_Init(SDL_INIT_VIDEO) != 0 && IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG) != 0) {
@@ -28,7 +31,7 @@ void Game::startGame() {
     Render::getInstance()->loadTexture("background", "background.bmp");
     Render::getInstance()->loadTexture("floor", "floor_placeholder.bmp");
 
-    player = new Player("player", 0, 358, 64, 64);
+//    player = new Player("player", 0, 358, 64, 64);
 
     running = true;
 }
@@ -47,8 +50,19 @@ void Game::handleEvents() {
         }
 
 //        player_texture = render.loadTexture(renderer_p, "player-right.bmp");
-        //    if (key_state[SDL_SCANCODE_UP]) player.getPlayerRect().y--;
+//        if (key_state[SDL_SCANCODE_UP]) player.getPlayerRect().y--;
 //        if (key_state[SDL_SCANCODE_UP]) rect.y--;
+        if (key_state[SDL_SCANCODE_RIGHT]) {
+            player->transform->translateX(1);
+            player->setFlip(SDL_FLIP_NONE);
+            std::cout << "Pressed right " << player->transform->posX << " " << player->getFlip() << std::endl;
+        }
+        if (key_state[SDL_SCANCODE_LEFT]) {
+            player->transform->translateX(-1);
+            player->setFlip(SDL_FLIP_HORIZONTAL);
+            std::cout << "Pressed left " << player->transform->posX << " " << player->getFlip() << std::endl;
+
+        }
 //        if (key_state[SDL_SCANCODE_DOWN]) rect.y++;
 //        if (key_state[SDL_SCANCODE_LEFT]) {
 ////            player_texture = render.loadTexture(renderer_p, "player-left.bmp");
@@ -65,6 +79,8 @@ void Game::handleEvents() {
 void Game::update() {
 //    previousTick = currentTick;
 //    currentTick = SDL_GetTicks();
+//      currentTick - previousTick = dt
+//      // przez to mnoze obliczenia fizyczne ^
 //    if ((currentTick - previousTick) < 33) {
 //        SDL_Delay(33 - (currentTick - previousTick));
 //        frameDropped = 0;

@@ -6,15 +6,14 @@ void Animation::update() {
     spriteFrame = (SDL_GetTicks() / animationSpeed) % frameCount;
 }
 
-void Animation::draw(float x, float y, int spriteWidth, int spriteHeight) {
+void Animation::draw(float x, float y, int spriteWidth, int spriteHeight, SDL_RendererFlip flip) {
     Render::getInstance()->drawFrame(textureId, x, y, spriteWidth, spriteHeight, spriteRow, spriteFrame, flip);
 }
 
 void Animation::setProperties(std::string textureId, int spriteRow, int frameCount,
-                   int animationSpeed, SDL_RendererFlip flip) {
+                   int animationSpeed) {
     this->textureId = textureId;
     this->spriteRow = spriteRow;
     this->frameCount = frameCount;
     this->animationSpeed = animationSpeed;
-    this->flip = flip;
 }

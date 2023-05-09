@@ -9,15 +9,15 @@ class Animation {
 public:
     Animation() {}
     void update();
-    void draw(float x, float y, int spriteWidth, int spriteHeight);
+    void draw(float x, float y, int spriteWidth, int spriteHeight, SDL_RendererFlip flip);
     void setProperties(std::string textureId, int spriteRow, int frameCount,
-                       int animationSpeed, SDL_RendererFlip flip=SDL_FLIP_NONE);
+                       int animationSpeed);
 
 private:
     // frameCount - how much frames will be drawn for animation
     int spriteRow, spriteFrame, animationSpeed, frameCount;
     std::string textureId;
-    SDL_RendererFlip flip;
+//    SDL_RendererFlip flip;
 
 };
 

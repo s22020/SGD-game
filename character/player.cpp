@@ -9,7 +9,7 @@ Player::Player(std::string textureId, float x, float y, int width, int height, S
 }
 
 void Player::draw() {
-    animation->draw(transform->posX, transform->posY, width, height);
+    animation->draw(transform->posX, transform->posY, width, height, flip);
 }
 
 void Player::clean() {
@@ -21,6 +21,14 @@ void Player::update(float dt) {
     transform->translateX(rigidBody->getPosition().posX);
     transform->translateY(rigidBody->getPosition().posY);
     animation->update();
+}
+
+SDL_RendererFlip Player::getFlip() {
+    return flip;
+}
+
+void Player::setFlip(SDL_RendererFlip flip) {
+    this->flip = flip;
 }
 
 //void Player::setFlipHorizontally(bool flipHorizontally) {
