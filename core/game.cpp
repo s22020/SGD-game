@@ -1,6 +1,7 @@
 #include "game.h"
 #include "../animation/animation.h"
 #include "../physics/rigidbody.h"
+#include "../character/enemy.h"
 
 #include <iostream>
 
@@ -8,6 +9,7 @@ Game* Game::game = nullptr;
 //Player* player = nullptr;
 
 Player* player = new Player("player", 0, 358, 64, 64);
+Enemy* enemy1 = new Enemy("enemy1", 20, 358, 64, 64);
 
 
 void Game::startGame() {
@@ -27,6 +29,7 @@ void Game::startGame() {
         running = false;
     }
 
+
     // load every Texture
     Render::getInstance()->loadTexture("player", "player-idle.png");
     Render::getInstance()->loadTexture("player-run", "player-run.png");
@@ -34,6 +37,7 @@ void Game::startGame() {
     Render::getInstance()->loadTexture("clouds", "clouds.bmp");
     Render::getInstance()->loadTexture("background", "background.bmp");
     Render::getInstance()->loadTexture("floor", "floor_placeholder.bmp");
+    Render::getInstance()->loadTexture("enemy1", "enemy.png");
 
 //    player = new Player("player", 0, 358, 64, 64);
 
@@ -57,20 +61,7 @@ void Game::calculateDeltaTime() {
 }
 
 void Game::update() {
-//    previousTick = currentTick;
-//    currentTick = SDL_GetTicks();
-//      currentTick - previousTick = dt
-//      // przez to mnoze obliczenia fizyczne ^
-//    if ((currentTick - previousTick) < 33) {
-//        SDL_Delay(33 - (currentTick - previousTick));
-//        frameDropped = 0;
-//    } else {
-//        frameDropped = 1;
-//    }
-//    previousTick += 33;
-//    calculateDeltaTime();
     player->update(deltaTime);
-
 }
 
 // render everything, draw textures
@@ -89,6 +80,8 @@ void Game::render() {
     // copy texture to the renderer, dstrect is stretching to entire screen
 //    Render::getInstance()->drawTexture("player", 0, 325, 100, 100, flip);
     player->draw();
+//    enemy1->draw();
+    Render::getInstance()->drawTexture("enemy1", 450, 358, 64,64, SDL_FLIP_HORIZONTAL);
 
     SDL_RenderPresent(renderer);
 }
