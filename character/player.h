@@ -13,6 +13,7 @@ public:
     virtual void update(float dt);
     SDL_RendererFlip getFlip();
     void setFlip(SDL_RendererFlip flip);
+    void handleEvents();
 
 private:
     Animation* animation;

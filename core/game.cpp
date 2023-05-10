@@ -1,4 +1,6 @@
 #include "game.h"
+#include "../animation/animation.h"
+#include "../physics/rigidbody.h"
 
 #include <iostream>
 
@@ -27,6 +29,7 @@ void Game::startGame() {
 
     // load every Texture
     Render::getInstance()->loadTexture("player", "player-idle.png");
+    Render::getInstance()->loadTexture("player-run", "player-run.png");
     Render::getInstance()->loadTexture("clouds", "clouds.bmp");
     Render::getInstance()->loadTexture("background", "background.bmp");
     Render::getInstance()->loadTexture("floor", "floor_placeholder.bmp");
@@ -38,42 +41,7 @@ void Game::startGame() {
 
 
 void Game::handleEvents() {
-        SDL_Event e;
-        auto *key_state = SDL_GetKeyboardState(nullptr);
-        while (SDL_PollEvent(&e) != 0) {
-            switch (e.type) {
-                case SDL_QUIT:
-                    std::cout << "Quit" << std::endl;
-                    quit();
-                    break;
-            }
-        }
-
-//        player_texture = render.loadTexture(renderer_p, "player-right.bmp");
-//        if (key_state[SDL_SCANCODE_UP]) player.getPlayerRect().y--;
-//        if (key_state[SDL_SCANCODE_UP]) rect.y--;
-        if (key_state[SDL_SCANCODE_RIGHT]) {
-            player->transform->translateX(1);
-            player->setFlip(SDL_FLIP_NONE);
-            std::cout << "Pressed right " << player->transform->posX << " " << player->getFlip() << std::endl;
-        }
-        if (key_state[SDL_SCANCODE_LEFT]) {
-            player->transform->translateX(-1);
-            player->setFlip(SDL_FLIP_HORIZONTAL);
-            std::cout << "Pressed left " << player->transform->posX << " " << player->getFlip() << std::endl;
-
-        }
-//        if (key_state[SDL_SCANCODE_DOWN]) rect.y++;
-//        if (key_state[SDL_SCANCODE_LEFT]) {
-////            player_texture = render.loadTexture(renderer_p, "player-left.bmp");
-//            flipHorizontally = true;
-//            rect.x--;
-//        }
-//        if (key_state[SDL_SCANCODE_RIGHT]) {
-//            //        player_texture = render.loadTexture(renderer_p, "player.bmp");
-//            flipHorizontally = false;
-//            rect.x++;
-//        }
+    player->handleEvents();
 }
 
 void Game::update() {
