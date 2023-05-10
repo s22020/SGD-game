@@ -30,6 +30,7 @@ void Game::startGame() {
     // load every Texture
     Render::getInstance()->loadTexture("player", "player-idle.png");
     Render::getInstance()->loadTexture("player-run", "player-run.png");
+    Render::getInstance()->loadTexture("player-shoot", "player-shoot.png");
     Render::getInstance()->loadTexture("clouds", "clouds.bmp");
     Render::getInstance()->loadTexture("background", "background.bmp");
     Render::getInstance()->loadTexture("floor", "floor_placeholder.bmp");
@@ -71,8 +72,8 @@ void Game::render() {
         Render::getInstance()->drawTexture("floor", 0+i*64, 416, 64, 64);
     }
 
-    SDL_RendererFlip flip = SDL_RendererFlip::SDL_FLIP_NONE;
-    if (flipHorizontally) flip = SDL_RendererFlip::SDL_FLIP_HORIZONTAL;
+//    SDL_RendererFlip flip = SDL_RendererFlip::SDL_FLIP_NONE;
+//    if (flipHorizontally) flip = SDL_RendererFlip::SDL_FLIP_HORIZONTAL;
     // copy texture to the renderer, dstrect is stretching to entire screen
 //    Render::getInstance()->drawTexture("player", 0, 325, 100, 100, flip);
     player->draw();

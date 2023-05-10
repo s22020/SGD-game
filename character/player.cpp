@@ -57,4 +57,8 @@ void Player::handleEvents() {
             setFlip(SDL_FLIP_HORIZONTAL);
             animation->setProperties("player-run", 0, 2, 200);
         }
+
+        if (key_state[SDL_SCANCODE_X]) {
+            animation->setProperties("player-shoot", 0, 2, 150);
+        }
 }
