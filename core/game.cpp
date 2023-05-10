@@ -80,7 +80,7 @@ void Game::render() {
 
     Render::getInstance()->drawTexture("background", 0, 0, 1043, 613);
     Render::getInstance()->drawTexture("clouds", -200, -125, 979, 602);
-    for (int i=0; i<16; i++) {
+    for (int i=0; i<64; i++) {
         Render::getInstance()->drawTexture("floor", 0+i*64, 416, 64, 64);
     }
 
