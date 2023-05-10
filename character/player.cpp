@@ -18,7 +18,7 @@ void Player::clean() {
 }
 
 void Player::update(float dt) {
-    rigidBody->calculateAppliedForces(0.5);
+    rigidBody->calculateAppliedForces(dt);
     transform->translateX(rigidBody->getPosition().posX);
 //    transform->translateY(rigidBody->getPosition().posY);
     animation->update();
@@ -47,13 +47,13 @@ void Player::handleEvents() {
         animation->setProperties("player", 0, 3, 500);
         rigidBody->unsetForce();
         if (key_state[SDL_SCANCODE_RIGHT]) {
-            rigidBody->setForceX(5);
+            rigidBody->setForceX(3);
             setFlip(SDL_FLIP_NONE);
             animation->setProperties("player-run", 0, 2, 200);
 
         }
         if (key_state[SDL_SCANCODE_LEFT]) {
-            rigidBody->setForceX(-5);
+            rigidBody->setForceX(-3);
             setFlip(SDL_FLIP_HORIZONTAL);
             animation->setProperties("player-run", 0, 2, 200);
         }

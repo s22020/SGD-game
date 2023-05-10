@@ -45,6 +45,17 @@ void Game::handleEvents() {
     player->handleEvents();
 }
 
+void Game::calculateDeltaTime() {
+    float currentTime;
+//    previousTime = 0.0f;
+    currentTime = SDL_GetTicks();
+    deltaTime = (currentTime - previousTime) * (targetFPS/1000.0f);
+    if (deltaTime > maxDeltaTime) {
+        deltaTime = maxDeltaTime;
+    }
+    previousTime = SDL_GetTicks();
+}
+
 void Game::update() {
 //    previousTick = currentTick;
 //    currentTick = SDL_GetTicks();
@@ -57,7 +68,8 @@ void Game::update() {
 //        frameDropped = 1;
 //    }
 //    previousTick += 33;
-    player->update(0);
+//    calculateDeltaTime();
+    player->update(deltaTime);
 
 }
 

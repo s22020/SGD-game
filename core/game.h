@@ -16,6 +16,7 @@ public:
 
     void startGame();
     void handleEvents();
+    void calculateDeltaTime();
     void update();
     void render();
     void clean();
@@ -31,6 +32,10 @@ private:
     SDL_Window *window;
     SDL_Renderer *renderer;
     bool flipHorizontally = false;
+    const int targetFPS = 60;
+    const float maxDeltaTime = 1.5f;
+    float deltaTime;
+    float previousTime;
 };
 
 #endif //SGD_GAME_GAME_H

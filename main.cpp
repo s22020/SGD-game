@@ -9,6 +9,7 @@ int main() {
         Game::getInstance()->handleEvents();
         Game::getInstance()->update();
         Game::getInstance()->render();
+        Game::getInstance()->calculateDeltaTime();
     }
     Game::getInstance()->clean();
     return 0;
