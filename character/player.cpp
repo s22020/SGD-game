@@ -93,31 +93,16 @@ void Player::update(float dt) {
     transform->translateX(rigidBody->getPosition().posX);
     transform->translateY(rigidBody->getPosition().posY);
 
-    SDL_Rect playerRect = {static_cast<int>(transform->posX), static_cast<int>(transform->posY), getPlayerWidth(), getPlayerHeight()};
+    SDL_Rect playerRect = {static_cast<int>(transform->posX), static_cast<int>(transform->posY)-5, getPlayerWidth(), getPlayerHeight()};
     std::cout << "playerRect.x " << playerRect.x << std::endl;
     std::cout << "playerRect.y " << playerRect.y << std::endl;
-    // map collider = {0, 416, 0+i*64, 64}
     SDL_Rect mapRect = {0, 416, 0+16*64, 64};
-//    if (SDL_HasIntersection(&playerRect, &mapRect)) {
-//        transform->posX = lastSafePosition.posX;
-//        transform->posY = lastSafePosition.posY;
-//    }
-//
-//    rigidBody->calculateAppliedForces(dt);
-//
-//
-//    lastSafePosition.posX = transform->posX;
-//    lastSafePosition.posY = transform->posY;
-//
-//    transform->translateX(rigidBody->getPosition().posX);
 
     if (SDL_HasIntersection(&playerRect, &mapRect)) {
         transform->posX = lastSafePosition.posX;
-//        transform->posY = lastSafePosition.posY;
     }
 
     if (SDL_HasIntersection(&playerRect, &mapRect)) {
-//        transform->posX = lastSafePosition.posX;
         isGrounded = true;
         transform->posY = lastSafePosition.posY;
     } else {
@@ -131,10 +116,8 @@ void Player::update(float dt) {
     lastSafePosition.posY = transform->posY;
 
     transform->translateX(rigidBody->getPosition().posX);
-//    transform->translateY(rigidBody->getPosition().posY);
 
     if (SDL_HasIntersection(&playerRect, &mapRect)) {
-//        transform->posX = lastSafePosition.posX;
         transform->posY = lastSafePosition.posY;
     }
 
