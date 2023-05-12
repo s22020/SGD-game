@@ -39,8 +39,7 @@ void Player::clean() {
 }
 
 void Player::update(float dt) {
-    // ZAKOMENTUJ JESLI NIE DZIALA
-//    Game::getInstance()->levelMap = new LevelMap(64);
+    jumpForce = 8.0f;
 
     animation->setProperties("player", 0, 3, 500);
     rigidBody->unsetForce();
@@ -63,19 +62,19 @@ void Player::update(float dt) {
 
     // ============= JUMPING ==================
 
-//    if (getKeyDown(SDL_SCANCODE_Z) && isGrounded) {
-//        isJumping = true;
-//        isGrounded = false;
-//        rigidBody->setForceY(1*jumpForce);
-//    }
-//
-//    if (getKeyDown(SDL_SCANCODE_Z) && isJumping && jumpTime > 0) {
-//        jumpTime -= dt;
-//        rigidBody->setForceY((-1) * jumpForce);
-//    } else {
-//        isJumping = false;
-//        jumpTime = JUMPTIME;
-//    }
+    if (getKeyDown(SDL_SCANCODE_Z) && isGrounded) {
+        isJumping = true;
+        isGrounded = false;
+        rigidBody->setForceY(1*jumpForce);
+    }
+
+    if (getKeyDown(SDL_SCANCODE_Z) && isJumping && jumpTime > 0) {
+        jumpTime -= dt;
+        rigidBody->setForceY((-1) * jumpForce);
+    } else {
+        isJumping = false;
+        jumpTime = JUMPTIME;
+    }
 
 
     // ZBIĆ SZYBKĘ W RAZIE AWARII
@@ -99,9 +98,30 @@ void Player::update(float dt) {
     std::cout << "playerRect.y " << playerRect.y << std::endl;
     // map collider = {0, 416, 0+i*64, 64}
     SDL_Rect mapRect = {0, 416, 0+16*64, 64};
+//    if (SDL_HasIntersection(&playerRect, &mapRect)) {
+//        transform->posX = lastSafePosition.posX;
+//        transform->posY = lastSafePosition.posY;
+//    }
+//
+//    rigidBody->calculateAppliedForces(dt);
+//
+//
+//    lastSafePosition.posX = transform->posX;
+//    lastSafePosition.posY = transform->posY;
+//
+//    transform->translateX(rigidBody->getPosition().posX);
+
     if (SDL_HasIntersection(&playerRect, &mapRect)) {
         transform->posX = lastSafePosition.posX;
+//        transform->posY = lastSafePosition.posY;
+    }
+
+    if (SDL_HasIntersection(&playerRect, &mapRect)) {
+//        transform->posX = lastSafePosition.posX;
+        isGrounded = true;
         transform->posY = lastSafePosition.posY;
+    } else {
+        isGrounded = false;
     }
 
     rigidBody->calculateAppliedForces(dt);
@@ -111,6 +131,13 @@ void Player::update(float dt) {
     lastSafePosition.posY = transform->posY;
 
     transform->translateX(rigidBody->getPosition().posX);
+//    transform->translateY(rigidBody->getPosition().posY);
+
+    if (SDL_HasIntersection(&playerRect, &mapRect)) {
+//        transform->posX = lastSafePosition.posX;
+        transform->posY = lastSafePosition.posY;
+    }
+
 
     animation->update();
 }
