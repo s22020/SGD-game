@@ -27,7 +27,7 @@ private:
     bool isJumping;
     bool isGrounded;
 
-//    float JUMPTIME = 15.0f;
+    float JUMPTIME = 15.0f;
 
     float jumpTime;
     float jumpForce;

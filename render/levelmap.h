@@ -8,6 +8,7 @@ class LevelMap {
 public:
     LevelMap(int floorCount);
     std::vector<SDL_Rect> getFloorLayer();
+    int getFloorCount();
 
 private:
     std::vector<SDL_Rect> floorLayer;

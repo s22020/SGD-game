@@ -9,9 +9,10 @@ void RigidBody::calculateAppliedForces(float dt) {
     acceleration.posX = (force.posX + friction.posX) / mass;
     acceleration.posY = gravity + force.posY / mass;
 //    velocity = acceleration * dt;
-    velocity = acceleration;
+//    velocity = acceleration;
 //    position = velocity * dt;
-    position = velocity;
+//    position = velocity;
+    position = acceleration;
 }
 
 float RigidBody::getMass() {

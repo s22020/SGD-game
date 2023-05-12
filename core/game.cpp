@@ -80,7 +80,7 @@ void Game::render() {
     Render::getInstance()->drawTexture("background3", 0, 0, 640, 640);
     // to jest moja collision layer
     // tutaj zamienic na dlugosc wektora z mapy
-    for (int i=0; i<64; i++) {
+    for (int i=0; i<levelMap->getFloorCount(); i++) {
         // napisać funkcję getRectangle dla render i character
         Render::getInstance()->drawTexture("floor", 0+i*64, 416, 64, 64);
 

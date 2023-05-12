@@ -77,44 +77,6 @@ void Player::update(float dt) {
 //        jumpTime = JUMPTIME;
 //    }
 
-//    ======== COLLIDER ==========
-//    rigidBody->calculateAppliedForces(dt);
-//    lastSafePosition.posX = transform->posX;
-//    lastSafePosition.posY = transform->posY;
-//    transform->translateX(rigidBody->getPosition().posX);
-//    transform->translateY(rigidBody->getPosition().posY);
-//    std::cout << "rigid body posY " << rigidBody->getPosition().posY << std::endl;
-//    collider->setBox(transform->posX, transform->posY, 96, 96);
-
-//    bool collisionDetected = false;
-//    for (int i = 0; i < Game::getInstance()->levelMap->getFloorLayer().size(); i++) {
-//        if (CollisionHandler::getInstance()->checkCollision(getCollider()->getBox(),
-//                                                            Game::getInstance()->levelMap->getFloorLayer()[i])) {
-//            collisionDetected = true;
-//            rigidBody->calculateAppliedForces(dt);
-//            transform->posX = lastSafePosition.posX;
-//            std::cout << transform->posX << std::endl;
-//        }
-//        rigidBody->calculateAppliedForces(dt);
-//        if (collisionDetected) {
-//            lastSafePosition.posY = transform->posY;
-//        }
-//        transform->translateY(rigidBody->getPosition().posY);
-//        collider->setBox(transform->posX, transform->posY, 96, 96);
-//
-//        if (CollisionHandler::getInstance()->checkCollision(getCollider()->getBox(),
-//                                                            Game::getInstance()->levelMap->getFloorLayer()[i])) {
-//            isGrounded = true;
-//            transform->posY = lastSafePosition.posY;
-//        } else {
-//            isGrounded = false;
-//        }
-//        // napisać funkcję getRectangle dla render i character
-//        // przenieśc do game
-////        Render::getInstance()->drawTexture("floor", 0+i*64, 416, 64, 64);
-//    }
-//    ======== COLLIDER ==========
-
 
     // ZBIĆ SZYBKĘ W RAZIE AWARII
 //    rigidBody->calculateAppliedForces(dt);
@@ -124,7 +86,6 @@ void Player::update(float dt) {
 
     // ZBIĆ SZYBKĘ W RAZIE AWARII
 
-    // EXPERYMENT //
     rigidBody->calculateAppliedForces(dt);
     lastSafePosition.posX = transform->posX;
     lastSafePosition.posY = transform->posY;
@@ -132,38 +93,26 @@ void Player::update(float dt) {
     std::cout << "last safe position y: " << lastSafePosition.posY << std::endl;
     transform->translateX(rigidBody->getPosition().posX);
     transform->translateY(rigidBody->getPosition().posY);
-//    std::cout << "player posX: " << transform->posX << std::endl;
-//    std::cout << "player posY: " << transform->posY << std::endl;
-    collider->setBox(transform->posX, transform->posY, 96, 96);
+
     SDL_Rect playerRect = {static_cast<int>(transform->posX), static_cast<int>(transform->posY), getPlayerWidth(), getPlayerHeight()};
-    for (int i = 0; i < Game::getInstance()->levelMap->getFloorLayer().size(); i++) {
-        std::cout << "player posX: " << transform->posX << std::endl;
-        std::cout << "player posY: " << transform->posY << std::endl;
-        std::cout << "map rect pos x: " << Game::getInstance()->levelMap->getFloorLayer()[i].x <<  std::endl;
-        std::cout << "map rect pos y: " << Game::getInstance()->levelMap->getFloorLayer()[i].y <<  std::endl;
-//        if (SDL_HasIntersection(&playerRect, &Game::getInstance()->levelMap->getFloorLayer()[i])) {
-        if (transform->posX == Game::getInstance()->levelMap->getFloorLayer()[i].x && transform->posY == Game::getInstance()->levelMap->getFloorLayer()[i].y) {
-            std::cout << "===================== intersection ===================" << std::endl;
-//            rigidBody->calculateAppliedForces(dt);
-            transform->posX = lastSafePosition.posX;
-            transform->posY = lastSafePosition.posY;
-        }
+    std::cout << "playerRect.x " << playerRect.x << std::endl;
+    std::cout << "playerRect.y " << playerRect.y << std::endl;
+    // map collider = {0, 416, 0+i*64, 64}
+    SDL_Rect mapRect = {0, 416, 0+16*64, 64};
+    if (SDL_HasIntersection(&playerRect, &mapRect)) {
+        transform->posX = lastSafePosition.posX;
+        transform->posY = lastSafePosition.posY;
     }
-//    transform->translateX(rigidBody->getPosition().posX);
-//    transform->translateY(rigidBody->getPosition().posY);
+
+    rigidBody->calculateAppliedForces(dt);
+
+
+    lastSafePosition.posX = transform->posX;
+    lastSafePosition.posY = transform->posY;
+
+    transform->translateX(rigidBody->getPosition().posX);
 
     animation->update();
-
-
-//    bool collisionDetected = false;
-//    for (int i=0; i < levelMap->getFloorLayer().size(); i++) {
-//        if (CollisionHandler::getInstance()->checkCollision(player->getCollider()->getBox(), levelMap->getFloorLayer()[i])) {
-//            collisionDetected = true;
-//            lastSafePosition =
-//        }
-//        // napisać funkcję getRectangle dla render i character
-//        Render::getInstance()->drawTexture("floor", 0+i*64, 416, 64, 64);
-//}
 }
 
 SDL_RendererFlip Player::getFlip() {

@@ -10,3 +10,7 @@ LevelMap::LevelMap(int floorCount) {
 std::vector<SDL_Rect> LevelMap::getFloorLayer() {
     return floorLayer;
 }
+
+int LevelMap::getFloorCount() {
+    return floorCount;
+}
