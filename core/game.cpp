@@ -1,18 +1,21 @@
 #include "game.h"
-#include "../animation/animation.h"
-#include "../physics/rigidbody.h"
 #include "../character/enemy.h"
+#include "../collision/collisionhandler.h"
 
 #include <iostream>
 
 Game* Game::game = nullptr;
-//Player* player = nullptr;
+//LevelMap* levelMap = new LevelMap(64);
 
-Player* player = new Player("player", 0, 358, 64, 64);
+Player* player = new Player("player", 0, 200, 64, 64);
+
+//Player* player = new Player("player", 0, 356, 64, 64);
 Enemy* enemy1 = new Enemy("enemy1", 20, 358, 64, 64);
 
 
 void Game::startGame() {
+    // ROZWIAZANIE ZAGADKI
+//    deltaTime =  0.5f;
     if (SDL_Init(SDL_INIT_VIDEO) != 0 && IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG) != 0) {
         SDL_Log("Failed to initialize SDL: %s", SDL_GetError());
         running = false;
@@ -34,12 +37,16 @@ void Game::startGame() {
     Render::getInstance()->loadTexture("player", "player-idle.png");
     Render::getInstance()->loadTexture("player-run", "player-run.png");
     Render::getInstance()->loadTexture("player-shoot", "player-shoot.png");
-    Render::getInstance()->loadTexture("clouds", "clouds.bmp");
-    Render::getInstance()->loadTexture("background", "background.bmp");
-    Render::getInstance()->loadTexture("floor", "floor_placeholder.bmp");
+    Render::getInstance()->loadTexture("background1", "background1.png");
+    Render::getInstance()->loadTexture("background2", "background2.png");
+    Render::getInstance()->loadTexture("background3", "background3.png");
+
+    Render::getInstance()->loadTexture("floor", "floor.png");
     Render::getInstance()->loadTexture("enemy1", "enemy.png");
 
 //    player = new Player("player", 0, 358, 64, 64);
+//  ODKOMENTUJ JESLI NIE DZIALA
+    levelMap = new LevelMap(16);
 
     running = true;
 }
@@ -51,7 +58,6 @@ void Game::handleEvents() {
 
 void Game::calculateDeltaTime() {
     float currentTime;
-//    previousTime = 0.0f;
     currentTime = SDL_GetTicks();
     deltaTime = (currentTime - previousTime) * (targetFPS/1000.0f);
     if (deltaTime > maxDeltaTime) {
@@ -69,18 +75,19 @@ void Game::render() {
     SDL_SetRenderDrawColor(renderer, 124, 218, 254, 255);
     SDL_RenderClear(renderer);
 
-    Render::getInstance()->drawTexture("background", 0, 0, 1043, 613);
-    Render::getInstance()->drawTexture("clouds", -200, -125, 979, 602);
+    Render::getInstance()->drawTexture("background1", 0, 0, 640, 640);
+    Render::getInstance()->drawTexture("background2", 0, 0, 640, 640);
+    Render::getInstance()->drawTexture("background3", 0, 0, 640, 640);
+    // to jest moja collision layer
+    // tutaj zamienic na dlugosc wektora z mapy
     for (int i=0; i<64; i++) {
+        // napisać funkcję getRectangle dla render i character
         Render::getInstance()->drawTexture("floor", 0+i*64, 416, 64, 64);
-    }
 
-//    SDL_RendererFlip flip = SDL_RendererFlip::SDL_FLIP_NONE;
-//    if (flipHorizontally) flip = SDL_RendererFlip::SDL_FLIP_HORIZONTAL;
-    // copy texture to the renderer, dstrect is stretching to entire screen
-//    Render::getInstance()->drawTexture("player", 0, 325, 100, 100, flip);
+    }
     player->draw();
-//    enemy1->draw();
+
+    // render enemy
     Render::getInstance()->drawTexture("enemy1", 450, 358, 64,64, SDL_FLIP_HORIZONTAL);
 
     SDL_RenderPresent(renderer);

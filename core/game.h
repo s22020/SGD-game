@@ -7,6 +7,7 @@
 #include <memory>
 #include "../render/render.h"
 #include "../character/player.h"
+#include "../render/levelmap.h"
 
 class Game {
 public:
@@ -24,6 +25,9 @@ public:
 
     inline bool isRunning() { return running; }
     inline SDL_Renderer* getRenderer() { return renderer; }
+//    inline LevelMap* getLevelMap() { return levelMap; }
+    LevelMap* levelMap;
+
 
 private:
     Game() {}
@@ -36,6 +40,7 @@ private:
     const float maxDeltaTime = 1.5f;
     float deltaTime;
     float previousTime;
+
 };
 
 #endif //SGD_GAME_GAME_H
