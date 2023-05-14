@@ -25,7 +25,6 @@ cmake-build-debug
 # Compiled Dynamic libraries
 *.so
 *.dylib
-*.dll
 
 # Fortran module files
 *.mod
@@ -35,7 +34,6 @@ cmake-build-debug
 *.lai
 *.la
 *.a
-*.lib
 
 # Executables
 *.exe
